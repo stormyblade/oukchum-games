@@ -189,7 +189,7 @@ def main():
     flag = True
     clock = pygame.time.Clock()
 
-    nom = input("Test")
+    #nom = input("Test")
     
     while flag:
         score = len(s.body)-1
