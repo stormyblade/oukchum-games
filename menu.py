@@ -2,23 +2,14 @@ import math
 import random
 import os
 import pygame
+from constantes import c
 pygame.init()
 
-largeur = 500
-hauteur = 500
-
-white = (255, 255, 0)
-gray = (50, 50, 50)
-black = (0, 0, 0)
-red = (200, 0, 0)
-green = (0, 200, 50)
-lightgreen = (30, 255, 85)
-blue = (0, 100, 200)
-lightblue = (30, 170, 255)
-cyan = (0,0,0)
+largeur = c.largeur
+hauteur = c.hauteur
 
 win = pygame.display.set_mode((largeur,hauteur))
-win.fill((255,255,255))
+win.fill(c.background)
 
 class button():
     def __init__(self, color, x, y, width, height, text=""):
@@ -48,17 +39,29 @@ class button():
         return False
 
 def redrawWindow():
-    win.fill((255,255,255))
-    greenButton.draw(win, green)
-    blueButton.draw(win, blue)
+    win.fill(c.background)
+    greenButton.draw(win, c.green)
+    blueButton.draw(win, c.blue)
+    redButton.draw(win, c.red)
+    greenButton2.draw(win, c.green)
+    blueButton2.draw(win, c.blue)
+    redButton2.draw(win, c.red)
 
 run = True
 
 boutonlargeur = 250
 boutonhauteur = 100
+gap = boutonhauteur/2
+marginx = largeur/2-(boutonlargeur+gap+boutonhauteur)/2
+marginy = hauteur/2-boutonhauteur/2-gap-boutonhauteur
 
-greenButton = button(green, largeur/2-boutonlargeur/2, 100, boutonlargeur, boutonhauteur, "Snake")
-blueButton = button(blue, largeur/2-boutonlargeur/2, 300, boutonlargeur, boutonhauteur, "Ouk")
+greenButton = button(c.green, marginx, marginy, boutonlargeur, boutonhauteur, "Snake")
+greenButton2 = button(c.green, largeur-marginx-boutonhauteur, marginy, boutonhauteur, boutonhauteur, "#")
+blueButton = button(c.blue, marginx, hauteur/2-boutonhauteur/2, boutonlargeur, boutonhauteur, "2")
+blueButton2 = button(c.blue, largeur-marginx-boutonhauteur, hauteur/2-boutonhauteur/2, boutonhauteur, boutonhauteur, "#")
+redButton = button(c.red, marginx, hauteur-marginy-boutonhauteur, boutonlargeur, boutonhauteur, "3")
+redButton2 = button(c.red, largeur-marginx-boutonhauteur, hauteur-marginy-boutonhauteur, boutonhauteur, boutonhauteur, "#")
+
 while run:
     redrawWindow()
     pygame.display.update()
@@ -80,9 +83,21 @@ while run:
 
         if event.type == pygame.MOUSEMOTION:
             if greenButton.isOver(pos):
-                greenButton.color = lightgreen
+                greenButton.color = c.lightgreen
+            elif greenButton2.isOver(pos):
+                greenButton2.color = c.lightgreen
             elif blueButton.isOver(pos):
-                blueButton.color = lightblue
+                blueButton.color = c.lightblue
+            elif blueButton2.isOver(pos):
+                blueButton2.color = c.lightblue
+            elif redButton.isOver(pos):
+                redButton.color = c.lightred
+            elif redButton2.isOver(pos):
+                redButton2.color = c.lightred
             else:
-                greenButton.color = green
-                blueButton.color = blue
+                greenButton.color = c.green
+                greenButton2.color = c.green
+                blueButton.color = c.blue
+                blueButton2.color = c.blue
+                redButton.color = c.red
+                redButton2.color = c.red
