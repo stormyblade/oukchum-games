@@ -188,6 +188,8 @@ def main():
     snack = cube(randomSnack(rows, s), color=(green))
     flag = True
     clock = pygame.time.Clock()
+
+    nom = input("Test")
     
     while flag:
         score = len(s.body)-1

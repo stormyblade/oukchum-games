@@ -1,9 +1,10 @@
 class c():
     test = "test"
     largeur = 500
-    hauteur = 800
+    hauteur = 500
 
-    white = (255, 255, 0)
+    white = (255, 255, 255)
+    yellow = (255, 255, 0)
     gray = (50, 50, 50)
     black = (0, 0, 0)
     background = (5, 5, 5)

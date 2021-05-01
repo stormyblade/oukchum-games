@@ -1,6 +1,3 @@
-import math
-import random
-import os
 import pygame
 from constantes import c
 pygame.init()
@@ -9,6 +6,7 @@ largeur = c.largeur
 hauteur = c.hauteur
 
 win = pygame.display.set_mode((largeur,hauteur))
+pygame.display.set_caption("Chum Games")
 win.fill(c.background)
 
 class button():
@@ -62,6 +60,7 @@ blueButton2 = button(c.blue, largeur-marginx-boutonhauteur, hauteur/2-boutonhaut
 redButton = button(c.red, marginx, hauteur-marginy-boutonhauteur, boutonlargeur, boutonhauteur, "3")
 redButton2 = button(c.red, largeur-marginx-boutonhauteur, hauteur-marginy-boutonhauteur, boutonhauteur, boutonhauteur, "#")
 
+
 while run:
     redrawWindow()
     pygame.display.update()
@@ -80,6 +79,8 @@ while run:
                 exec(open('snakev3.py').read())
             if blueButton.isOver(pos):
                 print("Cliqué sur le bouton")
+            if greenButton2.isOver(pos):
+                exec(open('leaderboard.py').read())
 
         if event.type == pygame.MOUSEMOTION:
             if greenButton.isOver(pos):
