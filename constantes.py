@@ -1,10 +1,12 @@
 class c():
     test = "test"
-    largeur = 500
+    largeur = 740
     hauteur = 500
+    moyenne = int(round((largeur+hauteur)/2))
 
     white = (255, 255, 255)
     yellow = (255, 255, 0)
+    lightgray = (180, 180, 180)
     gray = (50, 50, 50)
     black = (0, 0, 0)
     background = (5, 5, 5)

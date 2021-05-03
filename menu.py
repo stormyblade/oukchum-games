@@ -25,8 +25,8 @@ class button():
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
 
         if self.text != "":
-            font = pygame.font.SysFont('comicsans', 60)
-            text = font.render(self.text, 1, (0,0,0))
+            font = pygame.font.SysFont('comicsans', int(round(3/25*c.moyenne)))
+            text = font.render(self.text, 1, c.black)
             win.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 
     def isOver(self, pos):
@@ -47,8 +47,8 @@ def redrawWindow():
 
 run = True
 
-boutonlargeur = 250
-boutonhauteur = 100
+boutonlargeur = largeur/2
+boutonhauteur = hauteur/5
 gap = boutonhauteur/2
 marginx = largeur/2-(boutonlargeur+gap+boutonhauteur)/2
 marginy = hauteur/2-boutonhauteur/2-gap-boutonhauteur

@@ -5,9 +5,12 @@ import tkinter as tk
 from tkinter import messagebox
 from constantes import c
 
+size = c.largeur
+
 #Colors
 white = c.white
 gray = c.gray
+lightgray = c.lightgray
 black = c.black
 red = c.red
 green = c.green
@@ -16,9 +19,9 @@ green = c.green
 textinput = pygame_textinput.TextInput()
 inputflag = False
 
-font = pygame.font.SysFont('comicsans', 60)
-fontbig = pygame.font.SysFont('comicsans', 80)
-fontsmall = pygame.font.SysFont('comicsans', 40)
+font = pygame.font.SysFont('comicsans', int(round(3/25*size)))
+fontbig = pygame.font.SysFont('comicsans', int(round(4/25*size)))
+fontsmall = pygame.font.SysFont('comicsans', int(round(2/25*size)))
 
 gameover = c.gameoverstring
 gameover_w, gameover_h = fontbig.size(gameover)
@@ -31,7 +34,7 @@ yourbest = c.yourbeststring
 
 class cube(object):
     rows = 20
-    w = 500
+    w = size
     def __init__(self,start,dirnx=1,dirny=0,color=red):
         self.pos = start
         self.dirnx = 1
@@ -193,7 +196,7 @@ def main():
         g = open("score.txt", "w")
         g.write(str(0))
         g.close()
-    width = 500
+    width = size
     rows = 20
     s = snake(red, (10,10))
     h = open("score.txt", "r")
@@ -231,11 +234,11 @@ def main():
                     yourscore_w, yourscore_h = font.size(yourscore+str(score))
                     yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
                     yourbest_w, yourbest_h = fontsmall.size(yourbest+str(best_score))
-                    pygame.draw.rect(win, (180, 180, 180), (100, 390, 300, 40))
-                    win.blit(gameover_text, ((500-gameover_w)/2, 100))
-                    win.blit(entername_text, ((500-entername_w)/2, 340))
-                    win.blit(yourscore_text, ((500-yourscore_w)/2, 180))
-                    win.blit(yourbest_text, ((500-yourbest_w)/2, 230))
+                    pygame.draw.rect(win, lightgray, (size/5, 39/50*size, 3/5*size, 2/25*size))
+                    win.blit(gameover_text, ((size - gameover_w) / 2, size/5))
+                    win.blit(entername_text, ((size - entername_w) / 2, 17/25*size))
+                    win.blit(yourscore_text, ((size - yourscore_w) / 2, 9/25*size))
+                    win.blit(yourbest_text, ((size - yourbest_w) / 2, 23/50*size))
 
                     events = pygame.event.get()
                     for event in events:
@@ -251,7 +254,7 @@ def main():
                             pygame.display.update()
                             inputflag = False
                     # Blit its surface onto the screen
-                    win.blit(textinput.get_surface(), (110, 400))
+                    win.blit(textinput.get_surface(), (11/50*size, 4/5*size))
 
                     pygame.display.update()
                     clock.tick(30)
@@ -262,6 +265,5 @@ def main():
         redrawWindow(win)
         
     pass
-
 
 main()

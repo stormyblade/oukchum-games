@@ -8,6 +8,8 @@ import os.path
 import pygame
 import pygame.locals as pl
 
+from constantes import c
+
 pygame.font.init()
 
 
@@ -21,7 +23,7 @@ class TextInput:
             self,
             initial_string="",
             font_family="",
-            font_size=35,
+            font_size=int(round(7/100*c.largeur)),
             antialias=True,
             text_color=(0, 0, 0),
             cursor_color=(0, 0, 1),
