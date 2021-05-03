@@ -75,12 +75,19 @@ while run:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if greenButton.isOver(pos):
-                print("Clicked the button")
-                exec(open('snakev3.py').read())
-            if blueButton.isOver(pos):
-                print("Cliqué sur le bouton")
+                print("Cliqué sur le bouton vert (Snake)")
+                exec(open("snakev3.py").read())
             if greenButton2.isOver(pos):
-                exec(open('leaderboard.py').read())
+                print("Cliqué sur le # vert")
+                exec(open("snake_leaderboard.py").read())
+            if blueButton.isOver(pos):
+                print("Cliqué sur le bouton bleu")
+            if blueButton2.isOver(pos):
+                print("Cliqué sur le # bleu")
+            if redButton.isOver(pos):
+                print("Cliqué sur le bouton rouge")
+            if redButton2.isOver(pos):
+                print("Cliqué sur le # rouge")
 
         if event.type == pygame.MOUSEMOTION:
             if greenButton.isOver(pos):

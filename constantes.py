@@ -15,3 +15,8 @@ class c():
     blue = (0, 100, 200)
     lightblue = (30, 170, 255)
     cyan = (0, 0, 0)
+
+    gameoverstring = "Game Over !"
+    enternamestring = "Enter your name :"
+    yourscorestring = "Your score : "
+    yourbeststring = "Your best : "

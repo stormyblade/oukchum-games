@@ -1,16 +1,33 @@
-import math
 import random
 import pygame
+import pygame_textinput
 import tkinter as tk
 from tkinter import messagebox
+from constantes import c
 
-white = (255, 255, 0)
-gray = (50, 50, 50)
-black = (0, 0, 0)
-red = (200, 0, 0)
-green = (0, 200, 50)
-blue = (0, 0, 255)
+#Colors
+white = c.white
+gray = c.gray
+black = c.black
+red = c.red
+green = c.green
 
+#Text
+textinput = pygame_textinput.TextInput()
+inputflag = False
+
+font = pygame.font.SysFont('comicsans', 60)
+fontbig = pygame.font.SysFont('comicsans', 80)
+fontsmall = pygame.font.SysFont('comicsans', 40)
+
+gameover = c.gameoverstring
+gameover_w, gameover_h = fontbig.size(gameover)
+gameover_text = fontbig.render(gameover, True, white)
+entername = c.enternamestring
+entername_w, entername_h = fontsmall.size(entername)
+entername_text = fontsmall.render(entername, True, white)
+yourscore = c.yourscorestring
+yourbest = c.yourbeststring
 
 class cube(object):
     rows = 20
@@ -124,7 +141,6 @@ class snake(object):
             else:
                 c.draw(surface)
 
-
 def drawGrid(w, rows, surface):
     sizeBtwn = w // rows
     x = 0
@@ -182,14 +198,12 @@ def main():
     s = snake(red, (10,10))
     h = open("score.txt", "r")
     best_score = int(h.read())
-    print(best_score)
+    print("Best Score : ", best_score)
     
     win = pygame.display.set_mode((width, width))
     snack = cube(randomSnack(rows, s), color=(green))
     flag = True
     clock = pygame.time.Clock()
-
-    #nom = input("Test")
     
     while flag:
         score = len(s.body)-1
@@ -204,13 +218,44 @@ def main():
 
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
-                print('Score: ', len(s.body))
+                print('Score: ', len(s.body)-1)
                 if score > best_score:
                     best_score = score
                     g = open("score.txt", "w")
                     g.write(str(best_score))
                     g.close()
-                message_box('You Lost!', 'Score: '+str(score)+'\nYour Best: '+str(best_score)+'\nPlay again...')
+                #message_box('You Lost!', 'Score: '+str(score)+'\nYour Best: '+str(best_score)+'\nPlay again...')
+                inputflag = True
+                while inputflag == True:
+                    yourscore_text = font.render((yourscore+str(score)), True, white)
+                    yourscore_w, yourscore_h = font.size(yourscore+str(score))
+                    yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
+                    yourbest_w, yourbest_h = fontsmall.size(yourbest+str(best_score))
+                    pygame.draw.rect(win, (180, 180, 180), (100, 390, 300, 40))
+                    win.blit(gameover_text, ((500-gameover_w)/2, 100))
+                    win.blit(entername_text, ((500-entername_w)/2, 340))
+                    win.blit(yourscore_text, ((500-yourscore_w)/2, 180))
+                    win.blit(yourbest_text, ((500-yourbest_w)/2, 230))
+
+                    events = pygame.event.get()
+                    for event in events:
+                        if event.type == pygame.QUIT:
+                            exit()
+
+                    # Feed it with events every frame
+                    if textinput.update(events):
+                        textoutput = textinput.get_text()
+                        if textoutput != "":
+                            print("Text Output : ", textoutput)
+                            win.fill((0, 0, 0))
+                            pygame.display.update()
+                            inputflag = False
+                    # Blit its surface onto the screen
+                    win.blit(textinput.get_surface(), (110, 400))
+
+                    pygame.display.update()
+                    clock.tick(30)
+
                 s.reset((10,10))
                 break
             
