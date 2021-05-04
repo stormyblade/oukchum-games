@@ -188,7 +188,8 @@ def message_box(subject, content):
         pass
 
 def main():
-    global width, rows, s, snack
+    global width, rows, s, snack, speed
+    speed = 10
     try:
         h = open("score.txt", "r")
         int(h.read())
@@ -210,13 +211,15 @@ def main():
     
     while flag:
         score = len(s.body)-1
-        pygame.display.set_caption('Snake | Best : '+str(best_score)+' | Score : '+str(score))
+        pygame.display.set_caption('Snake | Best : '+str(best_score)+' | Score : '+str(score)+" | Speed : "+str(speed))
         pygame.time.delay(50)
-        clock.tick(10)
+        clock.tick(speed)
         s.move()
 
         if s.body[0].pos == snack.pos:
             s.addCube()
+            if (score+1)%5==0 and score!=0:
+                speed += 1
             snack = cube(randomSnack(rows, s), color=green)
 
         for x in range(len(s.body)):
@@ -230,6 +233,10 @@ def main():
                 #message_box('You Lost!', 'Score: '+str(score)+'\nYour Best: '+str(best_score)+'\nPlay again...')
                 inputflag = True
                 while inputflag == True:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                    
                     yourscore_text = font.render((yourscore+str(score)), True, white)
                     yourscore_w, yourscore_h = font.size(yourscore+str(score))
                     yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
