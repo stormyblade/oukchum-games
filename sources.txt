@@ -1,0 +1,12 @@
+#Sounds
+Apple Crunch    https://freesound.org/people/Koops/sounds/20279/
+Snake Hiss      https://freesound.org/people/schreibsel/sounds/540162/
+Lose            https://freesound.org/people/cabled_mess/sounds/350987/
+Jump (Unused)   https://freesound.org/people/stumpbutt/sounds/381691/
+Power-up        https://freesound.org/people/timgormly/sounds/170156/
+
+
+#Scripts
+Snake tutorial      https://www.youtube.com/watch?v=CD4qAhfFuLo
+pygame-text-input   https://github.com/Nearoo/pygame-text-input
+
