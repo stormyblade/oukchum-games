@@ -14,8 +14,9 @@ run = True
 h = open("score.txt", "r")
 best_score = (h.read())
 font = pygame.font.SysFont('comicsans', 60)
-text = font.render(best_score, 1, c.white)
-win.blit(text,(300,200))
+text = font.render(c.yourbeststring+best_score, 1, c.white)
+yourbest_w, yourbest_h = font.size(c.yourbeststring+str(best_score))
+win.blit(text, ((largeur-yourbest_w)/2, (hauteur-yourbest_h)/2))
 
 while run:
     pygame.display.update()
