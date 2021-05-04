@@ -1,6 +1,8 @@
+from random import *
 import random
 import pygame
 import pygame_textinput
+import pickle
 import tkinter as tk
 from tkinter import messagebox
 from constantes import c
@@ -35,7 +37,7 @@ yourbest = c.yourbeststring
 class cube(object):
     rows = 20
     w = size
-    def __init__(self,start,dirnx=1,dirny=0,color=red):
+    def __init__(self,start,dirnx=1,dirny=0,color=green):
         self.pos = start
         self.dirnx = 1
         self.dirny = 0
@@ -67,8 +69,8 @@ class snake(object):
         self.color = color
         self.head = cube(pos)
         self.body.append(self.head)
-        self.dirnx = 0
-        self.dirny = 1
+        self.dirnx = 1
+        self.dirny = 0
 
     def move(self):
         for event in pygame.event.get():
@@ -107,19 +109,32 @@ class snake(object):
                     self.turns.pop(p)       #remove the last one from the list
 
             else:
-                if c.dirnx == -1 and c.pos[0] <= 0: c.pos = (c.rows-1, c.pos[1])
-                elif c.dirnx == 1 and c.pos[0] >= c.rows-1: c.pos = (0,c.pos[1])
-                elif c.dirny == 1 and c.pos[1] >= c.rows-1: c.pos = (c.pos[0], 0)
-                elif c.dirny == -1 and c.pos[1] <= 0: c.pos = (c.pos[0],c.rows-1)
-                else: c.move(c.dirnx,c.dirny)
+                if c.dirnx == -1 and c.pos[0] <= 0:
+                    c.pos = (c.rows-1, c.pos[1])
+                    #pygame.mixer.music.load("assets/jump.wav")
+                    #pygame.mixer.music.play(0)
+                elif c.dirnx == 1 and c.pos[0] >= c.rows-1:
+                    c.pos = (0,c.pos[1])
+                    #pygame.mixer.music.load("assets/jump.wav")
+                    #pygame.mixer.music.play(0)
+                elif c.dirny == 1 and c.pos[1] >= c.rows-1:
+                    c.pos = (c.pos[0], 0)
+                    #pygame.mixer.music.load("assets/jump.wav")
+                    #pygame.mixer.music.play(0)
+                elif c.dirny == -1 and c.pos[1] <= 0:
+                    c.pos = (c.pos[0],c.rows-1)
+                    #pygame.mixer.music.load("assets/jump.wav")
+                    #pygame.mixer.music.play(0)
+                else:
+                    c.move(c.dirnx,c.dirny)
 
     def reset(self, pos):
         self.head = cube(pos)
         self.body = []
         self.body.append(self.head)
         self.turns = {}
-        self.dirnx = 0
-        self.dirny = 1
+        self.dirnx = 1
+        self.dirny = 0
 
     def addCube(self):
         tail = self.body[-1]
@@ -187,31 +202,34 @@ def message_box(subject, content):
     except:
         pass
 
+def save_obj(obj, name ):
+    with open(name, 'wb') as f:
+        pickle.dump(obj, f)
+
+def load_obj(name ):
+    with open(name, 'rb') as f:
+        return pickle.load(f)
+
 def main():
     global width, rows, s, snack, speed
     speed = 10
-    try:
-        h = open("score.txt", "r")
-        int(h.read())
-    except:
-        g = open("score.txt", "w")
-        g.write(str(0))
-        g.close()
     width = size
     rows = 20
-    s = snake(red, (10,10))
-    h = open("score.txt", "r")
-    best_score = int(h.read())
-    print("Best Score : ", best_score)
+    s = snake(green, (10,10))
+    #h = open("score.txt", "r")
+    #best_score = int(h.read())
+    #print("Best Score : ", best_score)
     
     win = pygame.display.set_mode((width, width))
-    snack = cube(randomSnack(rows, s), color=(green))
+    snack = cube(randomSnack(rows, s), color=(randint(0,70),randint(60,255),randint(60,255)))
     flag = True
     clock = pygame.time.Clock()
-    
+
+    pygame.mixer.music.load("assets/snake.mp3")
+    pygame.mixer.music.play(0)
     while flag:
         score = len(s.body)-1
-        pygame.display.set_caption('Snake | Best : '+str(best_score)+' | Score : '+str(score)+" | Speed : "+str(speed))
+        pygame.display.set_caption('Snake | Score : '+str(score)+" | Speed : "+str(speed))
         pygame.time.delay(50)
         clock.tick(speed)
         s.move()
@@ -220,32 +238,38 @@ def main():
             s.addCube()
             if (score+1)%5==0 and score!=0:
                 speed += 1
-            snack = cube(randomSnack(rows, s), color=green)
+                pygame.mixer.music.load("assets/boost.wav")
+                pygame.mixer.music.play(0)
+            else:
+                pygame.mixer.music.load("assets/apple.wav")
+                pygame.mixer.music.play(0)
+            snack = cube(randomSnack(rows, s), color=(randint(100,255),randint(0,60),randint(60,180)))
 
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
                 print('Score: ', len(s.body)-1)
-                if score > best_score:
-                    best_score = score
-                    g = open("score.txt", "w")
-                    g.write(str(best_score))
-                    g.close()
+                #if score > best_score:
+                    #best_score = score
+
+                    #g = open("score.txt", "w")
+                    #g.write(str(best_score))
+                    #g.close()
                 #message_box('You Lost!', 'Score: '+str(score)+'\nYour Best: '+str(best_score)+'\nPlay again...')
                 inputflag = True
+                pygame.mixer.music.load("assets/lose.wav")
+                pygame.mixer.music.play(0)
                 while inputflag == True:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            pygame.quit()
+
                     
                     yourscore_text = font.render((yourscore+str(score)), True, white)
                     yourscore_w, yourscore_h = font.size(yourscore+str(score))
-                    yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
-                    yourbest_w, yourbest_h = fontsmall.size(yourbest+str(best_score))
+                    #yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
+                    #yourbest_w, yourbest_h = fontsmall.size(yourbest+str(best_score))
                     pygame.draw.rect(win, lightgray, (size/5, 39/50*size, 3/5*size, 2/25*size))
                     win.blit(gameover_text, ((size - gameover_w) / 2, size/5))
                     win.blit(entername_text, ((size - entername_w) / 2, 17/25*size))
                     win.blit(yourscore_text, ((size - yourscore_w) / 2, 9/25*size))
-                    win.blit(yourbest_text, ((size - yourbest_w) / 2, 23/50*size))
+                    #win.blit(yourbest_text, ((size - yourbest_w) / 2, 23/50*size))
 
                     events = pygame.event.get()
                     for event in events:
@@ -254,11 +278,23 @@ def main():
 
                     # Feed it with events every frame
                     if textinput.update(events):
-                        textoutput = textinput.get_text()
-                        if textoutput != "":
-                            print("Text Output : ", textoutput)
+                        name = textinput.get_text()
+                        print(dico)
+                        if name == "Sheesh":
+                            print("SHEEESH")
+                            pygame.mixer.music.load("assets/sheesh.wav")
+                            pygame.mixer.music.play(0)
+                        elif name != "":
+                            print("Text Output : ", name)
                             win.fill((0, 0, 0))
                             pygame.display.update()
+                            try:
+                                if dico[name] < score:
+                                    dico[name] = score
+                            except:
+                                dico[name] = score
+                            save_obj(dico, "score.txt")
+                            print(load_obj("score.txt"))
                             inputflag = False
                     # Blit its surface onto the screen
                     win.blit(textinput.get_surface(), (11/50*size, 4/5*size))
@@ -266,11 +302,29 @@ def main():
                     pygame.display.update()
                     clock.tick(30)
 
+                speed = 10
                 s.reset((10,10))
                 break
             
         redrawWindow(win)
         
     pass
+dico = (load_obj("score.txt"))
 
+#Vérifie si le fichier est correct (sauf que ça marche pas là)
+#try:
+#    dico = (load_obj("score.txt"))
+#    print("try1"+dico)
+#    if not isinstance(dico, collections.Mapping):
+#        raise Error("La liste de scores n'est pas un dictionnaire.")
+#except:
+#    dico = {}
+#    save_obj(dico, "score.txt")
+#    print("except1"+str(dico))
+
+
+#Init
+#dico = {}
+#save_obj(dico, "score.txt")
+print("Dico actuel : "+str(dico))
 main()
