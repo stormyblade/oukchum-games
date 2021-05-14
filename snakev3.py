@@ -32,6 +32,8 @@ entername_text = fontsmall.render(entername, True, white)
 yourscore = c.yourscorestring
 yourbest = c.yourbeststring
 
+musicFlag = False
+
 class cube(object):
     rows = 20
     w = size
@@ -214,9 +216,6 @@ def main():
     width = size
     rows = 20
     s = snake(green, (10,10))
-    #h = open("score.txt", "r")
-    #best_score = int(h.read())
-    #print("Best Score : ", best_score)
     
     win = pygame.display.set_mode((width, width))
     icon = pygame.image.load('assets/snake.png')
@@ -225,8 +224,8 @@ def main():
     flag = True
     clock = pygame.time.Clock()
 
-    pygame.mixer.music.load("assets/snake.mp3")
-    pygame.mixer.music.play(0)
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/snake.mp3"))
+
     while flag:
         score = len(s.body)-1
         pygame.display.set_caption('Snake | Score : '+str(score)+" | Speed : "+str(speed))
@@ -238,23 +237,16 @@ def main():
             s.addCube()
             if (score+1)%5==0 and score!=0:
                 speed += 1
-                pygame.mixer.music.load("assets/boost.wav")
-                pygame.mixer.music.play(0)
+
+                pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/boost.wav"))
             else:
-                pygame.mixer.music.load("assets/apple.wav")
-                pygame.mixer.music.play(0)
+                pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/apple.wav"))
             snack = cube(randomSnack(rows, s), color=(randint(100,255),randint(0,60),randint(60,180)))
 
         for x in range(len(s.body)):
             if s.body[x].pos in list(map(lambda z:z.pos,s.body[x+1:])):
                 print('Score: ', len(s.body)-1)
-                #if score > best_score:
-                    #best_score = score
 
-                    #g = open("score.txt", "w")
-                    #g.write(str(best_score))
-                    #g.close()
-                #message_box('You Lost!', 'Score: '+str(score)+'\nYour Best: '+str(best_score)+'\nPlay again...')
                 inputflag = True
                 pygame.mixer.music.load("assets/lose.wav")
                 pygame.mixer.music.play(0)
@@ -281,6 +273,10 @@ def main():
                             print("SHEEESH")
                             pygame.mixer.music.load("assets/sheesh.wav")
                             pygame.mixer.music.play(0)
+                        elif name == "Dior":
+                            print("Woo back baby")
+                            pygame.mixer.music.load("assets/dior.mp3")
+                            pygame.mixer.music.play(0)
                         elif name != "":
                             print("Text Output : ", name)
                             win.fill((0, 0, 0))
@@ -301,6 +297,9 @@ def main():
 
                 speed = 10
                 s.reset((10,10))
+                if musicFlag:
+                    pygame.mixer.music.load("assets/dior.mp3")
+                    pygame.mixer.music.play(0)
                 break
             
         redrawWindow(win)
