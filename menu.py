@@ -7,6 +7,8 @@ hauteur = c.hauteur
 
 win = pygame.display.set_mode((largeur,hauteur))
 pygame.display.set_caption("Chum Games")
+icon = pygame.image.load('assets/arcade.png')
+pygame.display.set_icon(icon)
 win.fill(c.background)
 
 class button():

@@ -9,7 +9,6 @@ from constantes import c
 
 size = c.largeur
 
-#Colors
 white = c.white
 gray = c.gray
 lightgray = c.lightgray
@@ -17,7 +16,6 @@ black = c.black
 red = c.red
 green = c.green
 
-#Text
 textinput = pygame_textinput.TextInput()
 inputflag = False
 
@@ -221,6 +219,8 @@ def main():
     #print("Best Score : ", best_score)
     
     win = pygame.display.set_mode((width, width))
+    icon = pygame.image.load('assets/snake.png')
+    pygame.display.set_icon(icon)
     snack = cube(randomSnack(rows, s), color=(randint(0,70),randint(60,255),randint(60,255)))
     flag = True
     clock = pygame.time.Clock()
@@ -263,13 +263,10 @@ def main():
                     
                     yourscore_text = font.render((yourscore+str(score)), True, white)
                     yourscore_w, yourscore_h = font.size(yourscore+str(score))
-                    #yourbest_text = fontsmall.render((yourbest+str(best_score)), True, white)
-                    #yourbest_w, yourbest_h = fontsmall.size(yourbest+str(best_score))
                     pygame.draw.rect(win, lightgray, (size/5, 39/50*size, 3/5*size, 2/25*size))
                     win.blit(gameover_text, ((size - gameover_w) / 2, size/5))
                     win.blit(entername_text, ((size - entername_w) / 2, 17/25*size))
                     win.blit(yourscore_text, ((size - yourscore_w) / 2, 9/25*size))
-                    #win.blit(yourbest_text, ((size - yourbest_w) / 2, 23/50*size))
 
                     events = pygame.event.get()
                     for event in events:
@@ -311,20 +308,5 @@ def main():
     pass
 dico = (load_obj("score.txt"))
 
-#Vérifie si le fichier est correct (sauf que ça marche pas là)
-#try:
-#    dico = (load_obj("score.txt"))
-#    print("try1"+dico)
-#    if not isinstance(dico, collections.Mapping):
-#        raise Error("La liste de scores n'est pas un dictionnaire.")
-#except:
-#    dico = {}
-#    save_obj(dico, "score.txt")
-#    print("except1"+str(dico))
-
-
-#Init
-#dico = {}
-#save_obj(dico, "score.txt")
 print("Dico actuel : "+str(dico))
 main()
