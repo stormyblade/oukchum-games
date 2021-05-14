@@ -57,7 +57,7 @@ marginy = hauteur/2-boutonhauteur/2-gap-boutonhauteur
 
 greenButton = button(c.green, marginx, marginy, boutonlargeur, boutonhauteur, "Snake")
 greenButton2 = button(c.green, largeur-marginx-boutonhauteur, marginy, boutonhauteur, boutonhauteur, "#")
-blueButton = button(c.blue, marginx, hauteur/2-boutonhauteur/2, boutonlargeur, boutonhauteur, "2")
+blueButton = button(c.blue, marginx, hauteur/2-boutonhauteur/2, boutonlargeur, boutonhauteur, "Knight Hunt")
 blueButton2 = button(c.blue, largeur-marginx-boutonhauteur, hauteur/2-boutonhauteur/2, boutonhauteur, boutonhauteur, "#")
 redButton = button(c.red, marginx, hauteur-marginy-boutonhauteur, boutonlargeur, boutonhauteur, "Minesweeper")
 redButton2 = button(c.red, largeur-marginx-boutonhauteur, hauteur-marginy-boutonhauteur, boutonhauteur, boutonhauteur, "#")
