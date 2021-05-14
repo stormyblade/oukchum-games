@@ -8,6 +8,7 @@ def load_obj(name ):
         return pickle.load(f)
 
 largeur = c.largeur
+size = c.moyenne
 hauteur = c.hauteur
 
 win = pygame.display.set_mode((largeur,hauteur))
@@ -15,13 +16,38 @@ background = pygame.Surface((largeur,hauteur))
 pygame.display.set_caption("Chum Games | Snake Leaderboard")
 
 run = True
-#h = open("score.txt", "r")
-#best_score = (h.read())
-dico = load_obj("score.txt")
-font = pygame.font.SysFont('comicsans', 60)
-text = font.render(str(dico), 1, c.white)
-yourbest_w, yourbest_h = font.size(str(dico))
-win.blit(text, ((largeur-yourbest_w)/2, (hauteur-yourbest_h)/2))
+
+font = pygame.font.SysFont('comicsans', int(round(3/25*size)))
+
+dico = load_obj("score.txt")    #Importe le dico
+print(dico)                     #Affiche le dico avant de le trier
+sorted_dict = {}                #Trie le dico
+result = []                     #Initialise une liste result
+sorted_keys = sorted(dico, key=dico.get, reverse=True)  #Trie les clés
+
+for w in sorted_keys:           #Réarrange le dico selon les clés triées
+    sorted_dict[w] = dico[w]
+
+print(sorted_dict)
+
+text_w, text_h = font.size("Test")
+margin = 1/10*size              #Marge juste pour un meilleur rendu visuel
+
+for a in range(0,5):
+    try:
+        result.append(str(list(sorted_dict.keys())[a]) + " : " + str(list(sorted_dict.values())[a]))    #Ajoute les 5 premiers à la liste
+        result_text = font.render(result[a], True, c.white)                                             #Imprime à chaque fois l'élément de la liste
+        win.blit(result_text, ((margin,(3/31*size)*a+69/310*size)))
+        pygame.display.update()
+    except:
+        None
+
+#result_text = font.render(result, True, c.white)
+#result_w, result_h = font.size(result)
+#win.blit(result_text, ((200,200)))
+lb_title = font.render("Snake Leaderboard", True, c.green)
+win.blit(lb_title, ((margin, 1/20*size)))
+pygame.display.update()
 
 while run:
     pygame.display.update()

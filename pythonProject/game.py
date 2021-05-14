@@ -1,7 +1,14 @@
 import pygame
+import pygame_textinput
 import os
 import time
 from time import sleep
+from constantes import c
+
+white = c.white
+black = c.black
+
+size = 800
 
 class Game():
     def __init__(self, board, screenSize):
@@ -12,13 +19,19 @@ class Game():
 
     def run(self):
         pygame.init()
+        font = pygame.font.SysFont('comicsans', int(round(3 / 25 * size)))
         self.screen = pygame.display.set_mode(self.screenSize)
         running = True
         winSoundPlayed = False
+        inputFlag = False
+        textinput = pygame_textinput.TextInput()
+        clock = pygame.time.Clock()
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    pygame.quit()
                 if(event.type == pygame.MOUSEBUTTONDOWN):
                     position = pygame.mouse.get_pos()
                     rightClick = pygame.mouse.get_pressed()[2]
@@ -26,9 +39,33 @@ class Game():
             self.draw()
             pygame.display.flip()
             if (self.board.getWon() and not winSoundPlayed):
-                sound = pygame.mixer.Sound("win.wav")
+                sound = pygame.mixer.Sound("pythonProject/win.wav")
                 sound.play()
                 winSoundPlayed = True
+                inputFlag = True
+                while inputFlag == True:
+
+                    win_text = font.render("You Win", True, c.black)
+                    win_text_w, win_text_h = font.size("You Win")
+                    pygame.draw.rect(self.screen, white, (size / 5, 39 / 50 * size, 3 / 5 * size, 2 / 25 * size))
+                    self.screen.blit(win_text, ((size - win_text_w) / 2, size / 5))
+
+                    events = pygame.event.get()
+                    for event in events:
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                    if textinput.update(events):
+                        name = textinput.get_text()
+                        if name != "":
+                            print("Text Output : ", name)
+                            self.screen.fill((0, 0, 0))
+                            pygame.display.update()
+                            inputFlag = False
+                            pygame.quit()
+
+                    self.screen.blit(textinput.get_surface(), (11 / 50 * size, 4 / 5 * size))
+                    pygame.display.update()
+                    clock.tick(30)
                 sleep(5)
 
 
@@ -44,10 +81,10 @@ class Game():
 
     def loadImages(self):
         self.images = {}
-        for fileName in os.listdir("images"):
+        for fileName in os.listdir("pythonProject/images"):
             if (not fileName.endswith(".png")):
                 continue
-            image = pygame.image.load(r"images/" + fileName)
+            image = pygame.image.load(r"pythonProject/images/" + fileName)
             image = pygame.transform.scale(image, self.pieceSize)
             self.images[fileName.split(".")[0]] = image
 
