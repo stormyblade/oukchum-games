@@ -8,7 +8,7 @@ from constantes import c
 white = c.white
 black = c.black
 
-size = 800
+size = c.largeur
 
 class Game():
     def __init__(self, board, screenSize):
@@ -39,16 +39,25 @@ class Game():
             self.draw()
             pygame.display.flip()
             if (self.board.getWon() and not winSoundPlayed):
-                sound = pygame.mixer.Sound("pythonProject/win.wav")
+                sound = pygame.mixer.Sound("./win.wav")
                 sound.play()
                 winSoundPlayed = True
+                winScreenPlayed = False
                 inputFlag = True
                 while inputFlag == True:
 
-                    win_text = font.render("You Win", True, c.black)
-                    win_text_w, win_text_h = font.size("You Win")
+                    win_text = font.render("You Win, Good job!", True, c.black)
+                    win_text_w, win_text_h = font.size("You Win, Good Job!")
                     pygame.draw.rect(self.screen, white, (size / 5, 39 / 50 * size, 3 / 5 * size, 2 / 25 * size))
                     self.screen.blit(win_text, ((size - win_text_w) / 2, size / 5))
+
+                    if self.board.getWon():
+                        finaltime = (pygame.time.get_ticks() // 1000)
+                    score_text = font.render("Your Score : " + str(finaltime), True, c.black)
+                    score_text_w, score_text_h = font.size("Your Score : " + str(finaltime))
+                    if not winScreenPlayed:
+                        self.screen.blit(score_text, ((size - score_text_w) / 2, size / 3))
+                    winScreenPlayed = True
 
                     events = pygame.event.get()
                     for event in events:
@@ -81,10 +90,10 @@ class Game():
 
     def loadImages(self):
         self.images = {}
-        for fileName in os.listdir("pythonProject/images"):
+        for fileName in os.listdir("./images"):
             if (not fileName.endswith(".png")):
                 continue
-            image = pygame.image.load(r"pythonProject/images/" + fileName)
+            image = pygame.image.load(r"./images/" + fileName)
             image = pygame.transform.scale(image, self.pieceSize)
             self.images[fileName.split(".")[0]] = image
 
