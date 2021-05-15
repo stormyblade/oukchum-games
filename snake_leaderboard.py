@@ -36,17 +36,14 @@ margin = 1/10*size              #Marge juste pour un meilleur rendu visuel
 for a in range(0,5):
     try:
         result.append(str(list(sorted_dict.keys())[a]) + " : " + str(list(sorted_dict.values())[a]))    #Ajoute les 5 premiers à la liste
-        result_text = font.render(result[a], True, c.white)                                             #Imprime à chaque fois l'élément de la liste
+        result_text = font.render(str(a+1)+". "+result[a], True, c.white)                                             #Imprime à chaque fois l'élément de la liste
         win.blit(result_text, ((margin,(3/31*size)*a+69/310*size)))
         pygame.display.update()
     except:
         None
 
-#result_text = font.render(result, True, c.white)
-#result_w, result_h = font.size(result)
-#win.blit(result_text, ((200,200)))
 lb_title = font.render("Snake Leaderboard", True, c.green)
-win.blit(lb_title, ((margin, 1/20*size)))
+win.blit(lb_title, ((margin, margin)))
 pygame.display.update()
 
 while run:

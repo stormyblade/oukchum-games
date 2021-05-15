@@ -3,8 +3,6 @@ import random
 import pygame
 import pygame_textinput
 import pickle
-import tkinter as tk
-from tkinter import messagebox
 from constantes import c
 
 size = c.largeur
@@ -191,16 +189,6 @@ def randomSnack(rows, item):
             break
         
     return (x,y)
-
-def message_box(subject, content):
-    root = tk.Tk()
-    root.attributes("-topmost", True)
-    root.withdraw()
-    messagebox.showinfo(subject, content)
-    try:
-        root.destroy()
-    except:
-        pass
 
 def save_obj(obj, name ):
     with open(name, 'wb') as f:

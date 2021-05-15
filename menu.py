@@ -84,13 +84,16 @@ while run:
                 exec(open("snake_leaderboard.py").read())
             if blueButton.isOver(pos):
                 print("Cliqué sur le bouton bleu")
+                exec(open("./chumhunt/knighthunt.py").read())
             if blueButton2.isOver(pos):
                 print("Cliqué sur le # bleu")
+                exec(open("./chumhunt/knighthunt_leaderboard.py").read())
             if redButton.isOver(pos):
                 print("Cliqué sur le bouton rouge (Minesweeper)")
                 exec(open("./pythonProject/main.py").read())
             if redButton2.isOver(pos):
                 print("Cliqué sur le # rouge")
+                exec(open("./pythonProject/minesweeper_leaderboard.py").read())
 
         if event.type == pygame.MOUSEMOTION:
             if greenButton.isOver(pos):
