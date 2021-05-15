@@ -1,15 +1,19 @@
 # oukchum-games
 
-Jeux d'arcade 
-
-> ouk
+Jeux d'arcade
  
-### Chumsnake
+## Snake
 
-### Chumsweeper
+![Ouk](https://cdn.discordapp.com/attachments/664209124371857418/843064142508326912/unknown.png)
 
-### Chum Invaders
+## Minesweeper
 
-![Ouk](https://cdn.discordapp.com/attachments/667018145893974047/838873115689091202/unknown.png)
+![Ouk](https://cdn.discordapp.com/attachments/664209124371857418/843064907096522762/unknown.png)
 
-[pygame keys](https://www.pygame.org/docs/ref/key.html)
+## Knight Hunt
+
+![Ouk](https://cdn.discordapp.com/attachments/664209124371857418/843065020593995806/unknown.png)
+
+#### With working leaderboards
+
+![Ouk](https://cdn.discordapp.com/attachments/664209124371857418/843064307918438420/unknown.png)
