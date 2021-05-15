@@ -1,6 +1,7 @@
 import pygame
 import pygame_textinput
 import os
+import pickle
 import time
 from time import sleep
 from constantes import c
@@ -27,6 +28,10 @@ class Game():
         textinput = pygame_textinput.TextInput()
         clock = pygame.time.Clock()
 
+        dico = (load_obj("./pythonProject/minesweeper_score.txt"))
+
+        print("Dico actuel : " + str(dico))
+
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -39,8 +44,12 @@ class Game():
             self.draw()
             pygame.display.flip()
             if (self.board.getWon() and not winSoundPlayed):
-                sound = pygame.mixer.Sound("./win.wav")
+                sound = pygame.mixer.Sound("pythonProject/win.wav")
                 sound.play()
+
+                if self.board.getWon():
+                    finaltime = (pygame.time.get_ticks() // 1000)
+
                 winSoundPlayed = True
                 winScreenPlayed = False
                 inputFlag = True
@@ -51,10 +60,8 @@ class Game():
                     pygame.draw.rect(self.screen, white, (size / 5, 39 / 50 * size, 3 / 5 * size, 2 / 25 * size))
                     self.screen.blit(win_text, ((size - win_text_w) / 2, size / 5))
 
-                    if self.board.getWon():
-                        finaltime = (pygame.time.get_ticks() // 1000)
-                    score_text = font.render("Your Score : " + str(finaltime), True, c.black)
-                    score_text_w, score_text_h = font.size("Your Score : " + str(finaltime))
+                    score_text = font.render("Your Time : " + str(finaltime) + "s", True, c.black)
+                    score_text_w, score_text_h = font.size("Your Time : " + str(finaltime) + "s")
                     if not winScreenPlayed:
                         self.screen.blit(score_text, ((size - score_text_w) / 2, size / 3))
                     winScreenPlayed = True
@@ -69,6 +76,13 @@ class Game():
                             print("Text Output : ", name)
                             self.screen.fill((0, 0, 0))
                             pygame.display.update()
+                            try:
+                                if dico[name] > finaltime:
+                                    dico[name] = finaltime
+                            except:
+                                dico[name] = finaltime
+                            save_obj(dico, "./pythonProject/minesweeper_score.txt")
+                            print(load_obj("./pythonProject/minesweeper_score.txt"))
                             inputFlag = False
                             pygame.quit()
 
@@ -90,10 +104,10 @@ class Game():
 
     def loadImages(self):
         self.images = {}
-        for fileName in os.listdir("./images"):
+        for fileName in os.listdir("pythonProject/images"):
             if (not fileName.endswith(".png")):
                 continue
-            image = pygame.image.load(r"./images/" + fileName)
+            image = pygame.image.load(r"pythonProject/images/" + fileName)
             image = pygame.transform.scale(image, self.pieceSize)
             self.images[fileName.split(".")[0]] = image
 
@@ -111,3 +125,11 @@ class Game():
         index = position[1] // self.pieceSize[1], position[0] // self.pieceSize[0]
         piece = self.board.getPiece(index)
         self.board.handleClick(piece, rightClick)
+
+def save_obj(obj, name ):
+    with open(name, 'wb') as f:
+        pickle.dump(obj, f)
+
+def load_obj(name ):
+    with open(name, 'rb') as f:
+        return pickle.load(f)

@@ -1,4 +1,4 @@
-from piece import Piece
+from pythonProject.piece import Piece
 from random import random
 
 class Board():

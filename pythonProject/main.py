@@ -1,14 +1,16 @@
-from game import Game
-from board import Board
+from pythonProject.game import Game
+from pythonProject.board import Board
+from constantes import c
 import pygame
 
 pygame.display.set_caption("Minesweeper")
-icon = pygame.image.load('./images/icon.png')
+icon = pygame.image.load('pythonProject/images/icon.png')
 pygame.display.set_icon(icon)
 
-size = (5, 5)
-prob = 0.01
+size = (10, 10)
+prob = 0.1
 board = Board(size, prob)
-screenSize = (740, 740)
+screenSize = (c.largeur, c.largeur)
 game = Game(board, screenSize)
+
 game.run()
