@@ -1,5 +1,6 @@
 from pythonProject.piece import Piece
 from random import random
+from pythonProject.game import Game
 
 class Board():
     def __init__(self, size, prob):

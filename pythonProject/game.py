@@ -24,6 +24,7 @@ class Game():
         self.screen = pygame.display.set_mode(self.screenSize)
         running = True
         winSoundPlayed = False
+        loseScreenShow = False
         inputFlag = False
         textinput = pygame_textinput.TextInput()
         clock = pygame.time.Clock()
@@ -43,6 +44,21 @@ class Game():
                     self.handleClick(position, rightClick)
             self.draw()
             pygame.display.flip()
+            if(self.board.getLost() and not loseScreenShow):
+                print("gay")
+                inputFlag = True
+                while (inputFlag):
+                    lose_text = font.render("You Lost!", True, c.black)
+                    lose_text_w, lose_text_h = font.size("You Lost!")
+                    self.screen.blit(lose_text, ((size - lose_text_w) / 2, size / 5))
+                    pygame.display.update()
+                    loseScreenShow = True
+
+                    events = pygame.event.get()
+                    for event in events:
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+
             if (self.board.getWon() and not winSoundPlayed):
                 sound = pygame.mixer.Sound("pythonProject/win.wav")
                 sound.play()
@@ -125,6 +141,7 @@ class Game():
         index = position[1] // self.pieceSize[1], position[0] // self.pieceSize[0]
         piece = self.board.getPiece(index)
         self.board.handleClick(piece, rightClick)
+
 
 def save_obj(obj, name ):
     with open(name, 'wb') as f:

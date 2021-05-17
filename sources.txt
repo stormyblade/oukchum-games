@@ -15,7 +15,8 @@ pygame-text-input   https://github.com/Nearoo/pygame-text-input
 MINESWEEPER :
 
 #Sounds
-Win                     https://soundbible.com/478-Cheering-3.html
+Win                    https://soundbible.com/478-Cheering-3.html
+Loss                   https://soundbible.com/1367-Grenade.html
 
 #Images
 Board                  https://github.com/danielchang2002/Pygame/tree/main/Minesweeper/images
