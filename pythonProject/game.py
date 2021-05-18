@@ -12,10 +12,10 @@ black = c.black
 size = c.largeur
 
 class Game():
-    def __init__(self, board, screenSize):
+    def __init__(self, board, screenSize):  #Initializing the attributes needed for project
         self.board = board
         self.screenSize = screenSize
-        self.pieceSize = self.screenSize[0] // self.board.getSize()[1], self.screenSize[1] // self.board.getSize()[0]
+        self.pieceSize = self.screenSize[0] // self.board.getSize()[1], self.screenSize[1] // self.board.getSize()[0]  #The piece size is the width of the board // by nb of colums, and the height // by nb of rows
         self.loadImages()
 
     def run(self):
@@ -36,21 +36,24 @@ class Game():
 
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT:   #Quits the program if user quits
                     running = False
                     pygame.quit()
-                if(event.type == pygame.MOUSEBUTTONDOWN):
-                    position = pygame.mouse.get_pos()
-                    rightClick = pygame.mouse.get_pressed()[2]
-                    self.handleClick(position, rightClick)
-            self.draw()
-            pygame.display.flip()
-            if(self.board.getLost() and not loseScreenShow):
+                if event.type == pygame.MOUSEBUTTONDOWN:            #If user clicks anywhere on screen
+                    position = pygame.mouse.get_pos()               #Getting the position
+                    rightClick = pygame.mouse.get_pressed()[2]      #Checking if it was a right click, 2 is right click
+                    self.handleClick(position, rightClick)          #Passes the position and rightClick information to this function
+
+            self.draw()                                         #Draws the board
+            pygame.display.flip()                               #Updates the screen
+            if self.board.getLost() and not loseScreenShow :
                 if not loseSoundPlayed:
                     sound = pygame.mixer.Sound("pythonProject/lose.wav")
                     sound.play()
                     loseSoundPlayed = True
+
                 inputFlag = True
+
                 while (inputFlag):
                     lose_text = font.render("You Lost!", True, c.black)
                     lose_text_w, lose_text_h = font.size("You Lost!")
@@ -111,39 +114,39 @@ class Game():
                 sleep(5)
 
 
-    def draw(self):
-        topLeft = (0, 0)
-        for row in range(self.board.getSize()[0]):
-            for col in range(self.board.getSize()[1]):
-                piece = self.board.getPiece((row, col))
-                image = self.getImage(piece)
-                self.screen.blit(image, topLeft)
-                topLeft = topLeft[0] + self.pieceSize[0], topLeft[1]
-            topLeft = 0, topLeft [1] + self.pieceSize[1]
+    def draw(self):                                                     #Function that draws the board
+        topLeft = (0, 0)                                                #Starting from the top left corner
+        for row in range(self.board.getSize()[0]):                      #Row in range [number of rows]
+            for col in range(self.board.getSize()[1]):                  #Column in range [number of columns]
+                piece = self.board.getPiece((row, col))                 #Getting the piece from the board by passing an index
+                image = self.getImage(piece)                            #The image is the image based on the piece
+                self.screen.blit(image, topLeft)                        #Printing image, starting top left
+                topLeft = topLeft[0] + self.pieceSize[0], topLeft[1]    #Updating the topLeft x-wise by adding the width of the piece size to its x coordinate, and keeping the y coordinate as it was
+            topLeft = 0, topLeft [1] + self.pieceSize[1]                #Updating the topLeft y-wise by adding the height of the piece size to its y coordinate, and keeping the x coordinate as it was
 
-    def loadImages(self):
-        self.images = {}
+    def loadImages(self):                                                          #Function that loads images
+        self.images = {}                                                           #Dictionnary that maps the name of images and its image object
         for fileName in os.listdir("pythonProject/images"):
-            if (not fileName.endswith(".png")):
+            if not fileName.endswith(".png"):                                      #Skips the function if not an image
                 continue
-            image = pygame.image.load(r"pythonProject/images/" + fileName)
-            image = pygame.transform.scale(image, self.pieceSize)
-            self.images[fileName.split(".")[0]] = image
+            image = pygame.image.load(r"pythonProject/images/" + fileName)         #Loading the image and its filename
+            image = pygame.transform.scale(image, self.pieceSize)                  #Transforming the image to the size we need
+            self.images[fileName.split(".")[0]] = image                            #Setting image object as the image in the dictionnary as everything before ".png" is at index 0 in the dictionnary
 
     def getImage(self, piece):
         string = None
-        if(piece.getClicked()):
-            string = "icon" if piece.getHasBomb() else str(piece.getNumAround())
-        else:
-            string = "flag" if piece.getFlagged() else "empty-block"
-        return self.images[string]
+        if piece.getClicked():
+            string = "icon" if piece.getHasBomb() else str(piece.getNumAround())    #When piece gets clicked, show the bomb image if it was a bomb, or show the image with the number of bombs around the piece
+        else:                                                                       #If it was a left click
+            string = "flag" if piece.getFlagged() else "empty-block"                #Flag the piece if the function is true, else show an empty block
+        return self.images[string]                                                  #Index the resulting image in the dictionnary
 
     def handleClick(self, position, rightClick):
-        if (self.board.getLost()):
-            return
-        index = position[1] // self.pieceSize[1], position[0] // self.pieceSize[0]
-        piece = self.board.getPiece(index)
-        self.board.handleClick(piece, rightClick)
+        if self.board.getLost():                            #If the user has lost
+            return                                          #Just return, don't let user click anymore
+        index = position[1] // self.pieceSize[1], position[0] // self.pieceSize[0]      #Index which piece user clicked by floor dividing the x or y position of the click by the x or y lenght of the piece
+        piece = self.board.getPiece(index)                                              #Grab the piece from the board in the index
+        self.board.handleClick(piece, rightClick)                                       #Pass the click of the piece information to the board
 
 
 def save_obj(obj, name ):
