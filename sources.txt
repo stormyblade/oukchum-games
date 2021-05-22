@@ -1,4 +1,4 @@
-#SNAKE :
+#SNAKE
 
 ###Sounds
 Apple Crunch    https://freesound.org/people/Koops/sounds/20279/
@@ -12,7 +12,7 @@ Snake tutorial      https://www.youtube.com/watch?v=CD4qAhfFuLo
 pygame-text-input   https://github.com/Nearoo/pygame-text-input
 
 
-MINESWEEPER :
+#MINESWEEPER
 
 ###Sounds
 Win                    https://soundbible.com/478-Cheering-3.html
@@ -27,3 +27,8 @@ Various functions      https://www.pygame.org/docs/
 Minesweeper tutorials  https://github.com/vdallco/Minesweeper
                        https://www.youtube.com/watch?v=CD4qAhfFuLo
 pygame-text-input      https://github.com/Nearoo/pygame-text-input
+
+
+#KNIGHT HUNT
+
+https://youtu.be/FfWpgLFMI7w
