@@ -11,6 +11,7 @@ black = c.black
 
 size = c.largeur
 
+
 class Game():
     def __init__(self, board, screenSize):  #Initializing the attributes needed for project
         self.board = board
