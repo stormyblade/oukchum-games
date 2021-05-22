@@ -21,7 +21,7 @@ class Piece():
         self.numAround = 0                  #Counts the number of bombs around a piece
         for piece in self.neighbors:        #Iterate through the list of neighbors of the piece
             if (piece.getHasBomb()):        #If neighbor has bomb
-                self.numAround += 1         #Add 1 to the number of the piece
+                self.numAround += 1         #Adds 1 to the number of the piece
 
     def getNumAround(self):         #Detects the number of bombs around each piece
         return self.numAround

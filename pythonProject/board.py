@@ -5,7 +5,7 @@ from pythonProject.game import Game
 class Board():
     def __init__(self, size, prob):
         self.size = size
-        self.prob = prob                        #The probability that each piece is a bomb
+        self.prob = prob                            #The probability that each piece is a bomb
         self.lost = False
         self.numClicked = 0
         self.numNonBombs = 0
