@@ -30,11 +30,11 @@ entername_text = fontsmall.render(entername, True, white)
 yourscore = c.yourscorestring
 yourbest = c.yourbeststring
 
-musicFlag = False
 
 class cube(object):
     rows = 20
     w = size
+
     def __init__(self,start,dirnx=1,dirny=0,color=green):
         self.pos = start
         self.dirnx = 1
@@ -63,6 +63,7 @@ class cube(object):
 class snake(object):
     body = []
     turns = {}
+
     def __init__(self, color, pos):
         self.color = color
         self.head = cube(pos)
@@ -157,6 +158,7 @@ class snake(object):
             else:
                 c.draw(surface)
 
+
 def drawGrid(w, rows, surface):
     sizeBtwn = w // rows
     x = 0
@@ -168,6 +170,7 @@ def drawGrid(w, rows, surface):
         pygame.draw.line(surface, (gray), (x,0), (x,w))
         pygame.draw.line(surface, (gray), (0,y), (w,y))
 
+
 def redrawWindow(surface):
     global rows, width, s, snack
     surface.fill((0,0,0))
@@ -175,6 +178,7 @@ def redrawWindow(surface):
     snack.draw(surface)
     drawGrid(width, rows, surface)
     pygame.display.update()
+
 
 def randomSnack(rows, item):
 
@@ -190,13 +194,16 @@ def randomSnack(rows, item):
         
     return (x,y)
 
+
 def save_obj(obj, name ):
     with open(name, 'wb') as f:
         pickle.dump(obj, f)
 
+
 def load_obj(name ):
     with open(name, 'rb') as f:
         return pickle.load(f)
+
 
 def main():
     global width, rows, s, snack, speed
@@ -208,7 +215,7 @@ def main():
     win = pygame.display.set_mode((width, width))
     icon = pygame.image.load('assets/snake.png')
     pygame.display.set_icon(icon)
-    snack = cube(randomSnack(rows, s), color=(randint(0,70),randint(60,255),randint(60,255)))
+    snack = cube(randomSnack(rows, s), color=(randint(0,70), randint(60,255), randint(60,255)))
     flag = True
     clock = pygame.time.Clock()
 
@@ -223,7 +230,7 @@ def main():
 
         if s.body[0].pos == snack.pos:
             s.addCube()
-            if (score+1)%5==0 and score!=0:
+            if (score+1) % 5 == 0 and score != 0:
                 speed += 1
 
                 pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/boost.wav"))
@@ -238,9 +245,8 @@ def main():
                 inputflag = True
                 pygame.mixer.music.load("assets/lose.wav")
                 pygame.mixer.music.play(0)
-                while inputflag == True:
+                while inputflag:
 
-                    
                     yourscore_text = font.render((yourscore+str(score)), True, white)
                     yourscore_w, yourscore_h = font.size(yourscore+str(score))
                     pygame.draw.rect(win, lightgray, (size/5, 39/50*size, 3/5*size, 2/25*size))
@@ -263,7 +269,7 @@ def main():
                             pygame.mixer.music.play(0)
                         elif name == "Dior":
                             print("Woo back baby")
-                            pygame.mixer.music.load("assets/dior.mp3")
+                            pygame.mixer.music.load("assets/dior.wav")
                             pygame.mixer.music.play(0)
                         elif name != "":
                             print("Text Output : ", name)
@@ -285,14 +291,13 @@ def main():
 
                 speed = 10
                 s.reset((10,10))
-                if musicFlag:
-                    pygame.mixer.music.load("assets/dior.mp3")
-                    pygame.mixer.music.play(0)
                 break
             
         redrawWindow(win)
         
     pass
+
+
 dico = (load_obj("score.txt"))
 
 print("Dico actuel : "+str(dico))
