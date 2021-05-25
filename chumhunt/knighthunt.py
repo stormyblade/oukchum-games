@@ -8,7 +8,7 @@ from constantes import c
 
 textinput = pygame_textinput.TextInput()
 inputflag = False
-
+coef_school= 2.3
 size = 800
 
 # run game
@@ -58,7 +58,7 @@ for i in range(num_enemy):
     enemyimg.append(pygame.image.load("./chumhunt/enemyknight.png"))
     enemyX.append(randint(0, 936))
     enemyY.append(randint(0, 150))
-    enemychgX.append((0.5 + random() * (0.9 - 0.5)))
+    enemychgX.append((0.5 + random() * (0.9 - 0.5))*coef_school)
     enemychgY.append(50)
 
 # arrow
@@ -66,7 +66,7 @@ arrowimg = pygame.image.load("./chumhunt/arrow.png")
 arrowX = 0
 arrowY = 500
 arrowchgX = 0
-arrowchgY = 3.3
+arrowchgY = 3.3*coef_school
 arrowState = "ready"  # arrow is invisible , fire is visible
 
 def save_obj(obj, name ):
@@ -133,7 +133,7 @@ while running:
     timer -= dt
     if timer <= 0:
         timer = 0
-    dt = clock.tick(1000) / 1000
+    dt = clock.tick(100) / 1000
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -142,9 +142,9 @@ while running:
             # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerchgX = -2
+                playerchgX = -2*coef_school
             elif event.key == pygame.K_RIGHT:
-                playerchgX = 2
+                playerchgX = 2*coef_school
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerchgX = 0
@@ -195,10 +195,10 @@ while running:
 
         enemyX[i] += enemychgX[i]
         if enemyX[i] >= 936:
-            enemychgX[i] = -(0.5 + random() * (0.9 - 0.5))
+            enemychgX[i] = -(0.5 + random() * (0.9 - 0.5))*coef_school
             enemyY[i] += enemychgY[i]
         elif enemyX[i] <= 0:
-            enemychgX[i] = (0.5 + random() * (0.9 - 0.5))
+            enemychgX[i] = (0.5 + random() * (0.9 - 0.5))*coef_school
             enemyY[i] += enemychgY[i]
         # collision
         collision1 = collisionarrow(enemyX[i], enemyY[i], arrowX, arrowY)
