@@ -219,7 +219,7 @@ def main():
     flag = True
     clock = pygame.time.Clock()
 
-    pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/snake.wav"))
+    #pygame.mixer.Channel(0).play(pygame.mixer.Sound("assets/snake.wav"))
 
     while flag:
         score = len(s.body)-1
